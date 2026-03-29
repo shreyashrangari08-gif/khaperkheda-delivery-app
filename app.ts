@@ -1,34 +1,37 @@
-import express, { type Express } from "express";
-import cors from "cors";
-import pinoHttp from "pino-http";
-import router from "./routes";
-import { logger } from "./lib/logger";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-const app: Express = express();
+// Ye aapki app ka simple design hai
+const App = () => {
+  return (
+    <div style={{ 
+      padding: '50px', 
+      textAlign: 'center', 
+      fontFamily: 'sans-serif',
+      backgroundColor: '#f0f2f5',
+      height: '100vh'
+    }}>
+      <h1 style={{ color: '#1a73e8' }}>Khaperkheda Delivery App</h1>
+      <div style={{ 
+        backgroundColor: 'white', 
+        padding: '20px', 
+        borderRadius: '10px', 
+        display: 'inline-block',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+      }}>
+        <p style={{ fontSize: '18px' }}>🚀 App Live ho chuki hai!</p>
+        <p>Ab hum is link se APK bana sakte hain.</p>
+      </div>
+    </div>
+  );
+};
 
-app.use(
-  pinoHttp({
-    logger,
-    serializers: {
-      req(req) {
-        return {
-          id: req.id,
-          method: req.method,
-          url: req.url?.split("?")[0],
-        };
-      },
-      res(res) {
-        return {
-          statusCode: res.statusCode,
-        };
-      },
-    },
-  }),
-);
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/api", router);
-
-export default app;
+// Ye code aapki app ko "root" div mein daal dega
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}

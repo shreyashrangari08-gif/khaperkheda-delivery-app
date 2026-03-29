@@ -1,126 +1,87 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { ShoppingCart, MapPin, Send, CheckCircle, Package, User, Lock, Phone } from 'lucide-react';
+import { initializeApp } from "firebase/app";
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { Lock, Phone, ShoppingCart, CheckCircle } from 'lucide-react';
+
+// --- AAPKA FIREBASE CONFIG ---
+const firebaseConfig = {
+  apiKey: "AIzaSyBLLl4VbezE7AJsMypwvGrATa0bBwucyjA",
+  authDomain: "khaperkheda-delivery.firebaseapp.com",
+  projectId: "khaperkheda-delivery",
+  storageBucket: "khaperkheda-delivery.firebasestorage.app",
+  messagingSenderId: "481847511269",
+  appId: "1:481847511269:web:50931e36fcd3013fae2c0c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const App = () => {
-  const [user, setUser] = useState(null); // Logged in user info
-  const [view, setView] = useState('welcome'); // welcome, login, signup, otp, home
-  const [cart, setCart] = useState([]);
-  const [orderStatus, setOrderStatus] = useState('Idle');
+  const [view, setView] = useState('welcome'); 
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [confirmationResult, setConfirmationResult] = useState(null);
 
-  // --- Login/Signup Logic ---
-  const handleLogin = (e) => {
+  const sendOtp = async (e) => {
     e.preventDefault();
-    setView('home'); // Simple login for now
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
+    }
+    const formatPhone = phoneNumber.startsWith('+') ? phoneNumber : '+91' + phoneNumber;
+    try {
+      const result = await signInWithPhoneNumber(auth, formatPhone, window.recaptchaVerifier);
+      setConfirmationResult(result);
+      setView('otp');
+      alert("Asli OTP bhej diya gaya hai!");
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
   };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    setView('otp'); // Go to OTP screen after signup
+  const verifyOtp = async () => {
+    try {
+      await confirmationResult.confirm(otp);
+      setView('home'); // Ab sirf sahi OTP par hi andar jaayega!
+    } catch (error) {
+      alert("Galat OTP! Kripya sahi code daalein.");
+    }
   };
 
-  const verifyOtp = () => {
-    alert("OTP Verified Successfully!");
-    setUser({ name: "User" });
-    setView('home');
-  };
+  if (view === 'welcome') return (
+    <div style={{ padding: '50px', textAlign: 'center', backgroundColor: '#ff4757', height: '100vh', color: 'white' }}>
+      <h1>Khaperkheda Delivery</h1>
+      <div id="recaptcha-container"></div>
+      <button onClick={() => setView('login')} style={{ marginTop: '50px', padding: '15px 30px', borderRadius: '30px', border: 'none', fontWeight: 'bold' }}>Login with OTP</button>
+    </div>
+  );
 
-  // --- Menu Data ---
-  const menuItems = [
-    { id: 1, name: 'Special Thali', price: 120, img: '🍛' },
-    { id: 2, name: 'Paneer Butter Masala', price: 180, img: '🍲' },
-    { id: 3, name: 'Butter Naan', price: 30, img: '🫓' }
-  ];
+  if (view === 'login') return (
+    <div style={{ padding: '30px' }}>
+      <h2>Enter Mobile Number</h2>
+      <form onSubmit={sendOtp}>
+        <input type="tel" placeholder="9876543210" onChange={(e)=>setPhoneNumber(e.target.value)} required style={{ width: '100%', padding: '12px', marginBottom: '20px' }} />
+        <button type="submit" style={{ width: '100%', padding: '15px', backgroundColor: '#ff4757', color: 'white', border: 'none', borderRadius: '8px' }}>Send OTP</button>
+      </form>
+    </div>
+  );
 
-  // --- App Views ---
-  if (view === 'welcome') {
-    return (
-      <div style={{ padding: '40px 20px', textAlign: 'center', backgroundColor: '#ff4757', height: '100vh', color: 'white' }}>
-        <h1 style={{ marginTop: '100px' }}>Khaperkheda Delivery</h1>
-        <p>Fresh Food, Fast Delivery</p>
-        <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <button onClick={() => setView('login')} style={{ padding: '15px', borderRadius: '30px', border: 'none', fontWeight: 'bold', color: '#ff4757' }}>Login</button>
-          <button onClick={() => setView('signup')} style={{ padding: '15px', borderRadius: '30px', border: '2px solid white', backgroundColor: 'transparent', color: 'white', fontWeight: 'bold' }}>Create New Account</button>
-        </div>
-      </div>
-    );
-  }
+  if (view === 'otp') return (
+    <div style={{ padding: '30px', textAlign: 'center' }}>
+      <h2>Verify OTP</h2>
+      <input type="text" placeholder="6-digit code" onChange={(e)=>setOtp(e.target.value)} style={{ width: '100%', padding: '12px', marginBottom: '20px', textAlign: 'center' }} />
+      <button onClick={verifyOtp} style={{ width: '100%', padding: '15px', backgroundColor: '#2ed573', color: 'white', border: 'none', borderRadius: '8px' }}>Verify & Login</button>
+    </div>
+  );
 
-  if (view === 'signup') {
-    return (
-      <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-        <h2 style={{ color: '#ff4757' }}>Create Account</h2>
-        <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
-          <input type="text" placeholder="Full Name" required style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }} />
-          <input type="tel" placeholder="Mobile Number" required style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }} />
-          <input type="email" placeholder="Email Address" required style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }} />
-          <button type="submit" style={{ padding: '15px', backgroundColor: '#ff4757', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' }}>Send OTP</button>
-          <p onClick={() => setView('welcome')} style={{ textAlign: 'center', color: '#666' }}>Back</p>
-        </form>
-      </div>
-    );
-  }
-
-  if (view === 'otp') {
-    return (
-      <div style={{ padding: '30px', textAlign: 'center' }}>
-        <Lock size={50} color="#ff4757" />
-        <h2>Verify OTP</h2>
-        <p>Enter the 4-digit code sent to your phone</p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '20px 0' }}>
-          {[1,2,3,4].map(i => <input key={i} type="text" maxLength="1" style={{ width: '40px', height: '50px', fontSize: '24px', textAlign: 'center', borderRadius: '8px', border: '1px solid #ddd' }} />)}
-        </div>
-        <button onClick={verifyOtp} style={{ width: '100%', padding: '15px', backgroundColor: '#ff4757', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' }}>Confirm & Login</button>
-      </div>
-    );
-  }
-
-  // --- Home View (Old Logic) ---
-  if (view === 'home') {
-    const totalPrice = cart.reduce((total, item) => total + item.price, 0);
-    return (
-      <div style={{ fontFamily: 'sans-serif', backgroundColor: '#f0f2f5', minHeight: '100vh', paddingBottom: '80px' }}>
-        <header style={{ backgroundColor: '#ff4757', color: 'white', padding: '15px', textAlign: 'center' }}>
-          <h2 style={{ margin: 0 }}>Khaperkheda Delivery</h2>
-          <small>Welcome back, User!</small>
-        </header>
-        {/* Menu and Cart logic starts here... (Wahi purana code jo niche tha) */}
-        <div style={{ padding: '20px' }}>
-           {menuItems.map(item => (
-            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'white', margin: '10px 0', padding: '15px', borderRadius: '12px' }}>
-               <div>
-                <h4 style={{ margin: 0 }}>{item.name}</h4>
-                <p style={{ margin: 0, color: '#2ed573' }}>₹{item.price}</p>
-              </div>
-              <button onClick={() => setCart([...cart, item])} style={{ backgroundColor: '#ff4757', color: 'white', border: 'none', padding: '5px 15px', borderRadius: '8px' }}>Add +</button>
-            </div>
-           ))}
-        </div>
-        {cart.length > 0 && (
-          <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: 'white', padding: '15px', display: 'flex', justifyContent: 'space-between', boxSizing: 'border-box' }}>
-            <h3>Total: ₹{totalPrice}</h3>
-            <button style={{ backgroundColor: '#2ed573', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '20px' }}>Order via WhatsApp</button>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (view === 'login') {
-    return (
-      <div style={{ padding: '30px' }}>
-        <h2 style={{ color: '#ff4757' }}>Login</h2>
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <input type="tel" placeholder="Mobile Number" required style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }} />
-          <button type="submit" style={{ padding: '15px', backgroundColor: '#ff4757', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' }}>Login</button>
-          <p onClick={() => setView('signup')} style={{ textAlign: 'center', color: '#666' }}>New here? Create Account</p>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      <CheckCircle size={60} color="#2ed573" />
+      <h1>Welcome to the App!</h1>
+      <p>Verified Mobile: {phoneNumber}</p>
+    </div>
+  );
 };
 
 const rootElement = document.getElementById('root');
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<React.StrictMode><App /></React.StrictMode>);
-}
+if (rootElement) { ReactDOM.createRoot(rootElement).render(<App />); }

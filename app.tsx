@@ -1,17 +1,49 @@
-// App.tsx mein onSignInSubmit ko isse badal do:
-const onSignInSubmit = async (e: any) => {
-  e.preventDefault();
-  const formatPhone = phoneNumber.startsWith('+91') ? phoneNumber : '+91' + phoneNumber;
-  
-  try {
-    const recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', { 'size': 'invisible' });
-    const result = await signInWithPhoneNumber(auth, formatPhone, recaptchaVerifier);
-    setConfirmationResult(result);
-    setView('otp');
-  } catch (error: any) {
-    // Agar billing error aaye toh bhi hum OTP page par bhej rahe hain test number ke liye
-    console.log("Error but moving to OTP for test number");
-    setView('otp'); 
-    alert("Test Mode: Apna 6-digit code daaliye (120722)");
-  }
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const App = () => {
+  return (
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '100vh', 
+      fontFamily: 'sans-serif',
+      backgroundColor: '#ff4757',
+      color: 'white',
+      textAlign: 'center',
+      padding: '20px'
+    }}>
+      <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>🚚</h1>
+      <h1 style={{ margin: 0 }}>Khaperkheda Delivery</h1>
+      <p style={{ fontSize: '1.2rem', marginTop: '20px', opacity: 0.9 }}>
+        App Testing Mode Mein Hai...
+      </p>
+      <div style={{ 
+        marginTop: '30px', 
+        padding: '20px', 
+        backgroundColor: 'rgba(255,255,255,0.2)', 
+        borderRadius: '15px' 
+      }}>
+        <p>Shreyash, agar aapko ye screen dikh rahi hai,</p>
+        <p><strong>Toh iska matlab App LIVE ho gayi hai!</strong></p>
+      </div>
+      <button 
+        onClick={() => window.location.reload()} 
+        style={{ 
+          marginTop: '30px', 
+          padding: '12px 25px', 
+          borderRadius: '25px', 
+          border: 'none', 
+          fontWeight: 'bold',
+          cursor: 'pointer'
+        }}>
+        Refresh App
+      </button>
+    </div>
+  );
 };
+
+const root = createRoot(document.getElementById('root')!);
+root.render(<App />);

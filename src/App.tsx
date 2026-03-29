@@ -23,9 +23,9 @@ export default function App() {
       { id: 's3', name: "Onion Uttapam", price: 90, rating: "4.2", img: "https://images.pexels.com/photos/13063293/pexels-photo-13063293.jpeg?auto=compress&cs=tinysrgb&w=400" }
     ],
     Sweets: [
-      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://images.pexels.com/photos/12330751/pexels-photo-12330751.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://images.pexels.com/photos/10313176/pexels-photo-10313176.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://images.pexels.com/photos/10313178/pexels-photo-10313178.jpeg?auto=compress&cs=tinysrgb&w=400" }
+      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://images.unsplash.com/photo-1627916607164-7b20241db935?w=400" },
+      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://images.unsplash.com/photo-1628163901980-dfd35e120150?w=400" },
+      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://images.unsplash.com/photo-1605663714271-e00b1473266e?w=400" }
     ]
   };
 

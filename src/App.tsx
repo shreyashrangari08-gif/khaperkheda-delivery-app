@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Star, Clock, Pizza, Utensils, Coffee, IceCream } from 'lucide-react';
+import { ShoppingCart, Star, Clock, Utensils, Pizza, IceCream } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Biryani');
@@ -8,24 +8,24 @@ export default function App() {
 
   const menuData: any = {
     Biryani: [
-      { id: 'b1', name: "Special Chicken Biryani", half: 110, full: 190, rating: "4.7", img: "https://images.pexels.com/photos/7394819/pexels-photo-7394819.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'b2', name: "Hyderabadi Veg Biryani", half: 90, full: 160, rating: "4.2", img: "https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'b3', name: "Egg Biryani (Nagpur Special)", half: 100, full: 170, rating: "4.4", img: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=400" }
+      { id: 'b1', name: "Special Chicken Biryani", half: 110, full: 190, rating: "4.7", img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600" },
+      { id: 'b2', name: "Hyderabadi Veg Biryani", half: 90, full: 160, rating: "4.2", img: "https://images.unsplash.com/photo-154332658-9273644877ed?w=600" },
+      { id: 'b3', name: "Egg Biryani (Nagpur Special)", half: 100, full: 170, rating: "4.4", img: "https://images.unsplash.com/photo-1627916607164-7b20241db935?w=600" }
     ],
     Pizza: [
-      { id: 'p1', name: "Paneer Tikka Pizza", s: 199, m: 379, l: 599, rating: "4.6", img: "https://images.pexels.com/photos/9646850/pexels-photo-9646850.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'p2', name: "Farmhouse Veggie Pizza", s: 179, m: 349, l: 549, rating: "4.3", img: "https://images.pexels.com/photos/8471701/pexels-photo-8471701.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 'p3', name: "Double Cheese Margherita", s: 189, m: 369, l: 569, rating: "4.5", img: "https://images.pexels.com/photos/1552635/pexels-photo-1552635.jpeg?auto=compress&cs=tinysrgb&w=400" }
+      { id: 'p1', name: "Paneer Tikka Pizza", s: 199, m: 379, l: 599, rating: "4.6", img: "https://images.pexels.com/photos/9646850/pexels-photo-9646850.jpeg?auto=compress&cs=tinysrgb&w=600" },
+      { id: 'p2', name: "Farmhouse Veggie Pizza", s: 179, m: 349, l: 549, rating: "4.3", img: "https://images.pexels.com/photos/8471701/pexels-photo-8471701.jpeg?auto=compress&cs=tinysrgb&w=600" },
+      { id: 'p3', name: "Double Cheese Margherita", s: 189, m: 369, l: 569, rating: "4.5", img: "https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=600" }
     ],
     South: [
-      { id: 's1', name: "Butter Masala Dosa", price: 110, rating: "4.4", img: "https://images.pexels.com/photos/5560700/pexels-photo-5560700.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 's2', name: "Sambhar Vada (2 Pc)", price: 70, rating: "4.1", img: "https://images.pexels.com/photos/6363501/pexels-photo-6363501.jpeg?auto=compress&cs=tinysrgb&w=400" },
-      { id: 's3', name: "Onion Uttapam", price: 90, rating: "4.2", img: "https://images.pexels.com/photos/13063293/pexels-photo-13063293.jpeg?auto=compress&cs=tinysrgb&w=400" }
+      { id: 's1', name: "Butter Masala Dosa", price: 110, rating: "4.4", img: "https://images.pexels.com/photos/5560700/pexels-photo-5560700.jpeg?auto=compress&cs=tinysrgb&w=600" },
+      { id: 's2', name: "Sambhar Vada (2 Pc)", price: 70, rating: "4.1", img: "https://images.pexels.com/photos/6363501/pexels-photo-6363501.jpeg?auto=compress&cs=tinysrgb&w=600" },
+      { id: 's3', name: "Onion Uttapam", price: 90, rating: "4.2", img: "https://images.pexels.com/photos/13063293/pexels-photo-13063293.jpeg?auto=compress&cs=tinysrgb&w=600" }
     ],
     Sweets: [
-      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://images.unsplash.com/photo-1627916607164-7b20241db935?w=400" },
-      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://images.unsplash.com/photo-1628163901980-dfd35e120150?w=400" },
-      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://images.unsplash.com/photo-1605663714271-e00b1473266e?w=400" }
+      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://images.unsplash.com/photo-1605663714271-e00b1473266e?w=600" },
+      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://images.unsplash.com/photo-1628163901980-dfd35e120150?w=600" },
+      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://images.pexels.com/photos/10313178/pexels-photo-10313178.jpeg?auto=compress&cs=tinysrgb&w=600" }
     ]
   };
 
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh', paddingBottom: '180px' }}>
       <header style={{ padding: '15px 20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 10 }}>
-        <h2 style={{ color: '#E23744', margin: 0, fontWeight: 900 }}>Khaperkhedaa</h2>
+        <h2 style={{ color: '#E23744', margin: 0, fontWeight: 900 }}>Khaperkhedaa Court</h2>
         <div style={{ position: 'relative' }}>
           <ShoppingCart size={24} color="#E23744" />
           {cart.length > 0 && <span style={{ position: 'absolute', top: -5, right: -5, background: '#E23744', color: '#fff', fontSize: '10px', borderRadius: '50%', padding: '2px 5px' }}>{cart.length}</span>}
@@ -52,7 +52,7 @@ export default function App() {
       </header>
 
       {/* Tabs / Category Navigation */}
-      <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', padding: '15px', backgroundColor: '#fff', borderBottom: '1px solid #eee', whiteSpace: 'nowrap', sticky: 'top' }}>
+      <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', padding: '15px', backgroundColor: '#fff', borderBottom: '1px solid #eee', whiteSpace: 'nowrap', sticky: 'top', zIndex: 9 }}>
         {['Biryani', 'South', 'Pizza', 'Sweets'].map(tab => (
           <button 
             key={tab}
@@ -67,11 +67,11 @@ export default function App() {
               cursor: 'pointer'
             }}
           >
-            {tab === 'Biryani' && '🍗 '}
-            {tab === 'South' && '🍛 '}
-            {tab === 'Pizza' && '🍕 '}
-            {tab === 'Sweets' && '🍰 '}
-            {tab}
+            {tab === 'Biryani' && <Utensils size={16} style={{display:'inline'}} />}
+            {tab === 'South' && <Utensils size={16} style={{display:'inline'}} />}
+            {tab === 'Pizza' && <Pizza size={16} style={{display:'inline'}} />}
+            {tab === 'Sweets' && <IceCream size={16} style={{display:'inline'}} />}
+            &nbsp;{tab}
           </button>
         ))}
       </div>
@@ -122,7 +122,7 @@ export default function App() {
             onClick={() => window.open(`https://wa.me/919699343711?text=${encodeURIComponent(`🔥 *New Order from Khaperkhedaa Court*\n\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}\n📍 *Address:* ${address}`)}`)} 
             style={{ width: '100%', backgroundColor: '#E23744', color: '#fff', padding: '18px', borderRadius: '15px', fontWeight: 'bold', border: 'none', fontSize: '18px' }}
           >
-            Place Order (₹{total})
+            Confirm Order (₹{total})
           </button>
         </div>
       )}

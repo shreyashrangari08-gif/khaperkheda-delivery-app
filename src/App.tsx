@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Star, Utensils, Pizza, IceCream, Clock } from 'lucide-react';
+import { ShoppingCart, Star, Utensils, Pizza, IceCream, MapPin } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Biryani');
   const [cart, setCart] = useState<any[]>([]);
   const [address, setAddress] = useState('');
+  const [customerName, setCustomerName] = useState('');
 
   const menuData: any = {
     Biryani: [
@@ -57,50 +58,67 @@ export default function App() {
 
   const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
 
+  // Magic Function: Get Location and Send to WhatsApp
+  const handleCheckout = () => {
+    if (!customerName || !address) {
+      alert("Please enter Name and Address");
+      return;
+    }
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        
+        const message = `🔥 *New Order from Khaperkhedaa Court*\n\n👤 *Customer:* ${customerName}\n📍 *Address:* ${address}\n🗺️ *Live Location:* ${mapsLink}\n\n*Items:*\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}`;
+        
+        window.open(`https://wa.me/919699343711?text=${encodeURIComponent(message)}`);
+      }, (error) => {
+        // Location fails but order still goes
+        const message = `🔥 *New Order from Khaperkhedaa Court*\n\n👤 *Customer:* ${customerName}\n📍 *Address:* ${address}\n⚠️ _Location permission denied_\n\n*Items:*\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}`;
+        window.open(`https://wa.me/919699343711?text=${encodeURIComponent(message)}`);
+      });
+    }
+  };
+
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh', paddingBottom: '180px' }}>
+    <div style={{ fontFamily: 'system-ui, sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh', paddingBottom: '220px' }}>
       <header style={{ padding: '15px 20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 10 }}>
         <h2 style={{ color: '#E23744', margin: 0, fontWeight: 900 }}>Khaperkhedaa Court</h2>
-        <div style={{ position: 'relative' }}>
-          <ShoppingCart size={24} color="#E23744" />
-          {cart.length > 0 && <span style={{ position: 'absolute', top: -5, right: -5, background: '#E23744', color: '#fff', fontSize: '10px', borderRadius: '50%', padding: '2px 5px' }}>{cart.length}</span>}
-        </div>
+        <ShoppingCart size={24} color="#E23744" />
       </header>
 
       <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', padding: '15px', backgroundColor: '#fff', borderBottom: '1px solid #eee', whiteSpace: 'nowrap', sticky: 'top', zIndex: 9 }}>
         {['Biryani', 'South', 'Pizza', 'Sweets'].map(tab => (
           <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: '10px 20px', borderRadius: '25px', border: activeTab === tab ? 'none' : '1px solid #ddd', backgroundColor: activeTab === tab ? '#E23744' : '#fff', color: activeTab === tab ? '#fff' : '#555', fontWeight: 'bold' }}>
-             {tab === 'Biryani' ? '🍗 ' : tab === 'South' ? '🍛 ' : tab === 'Pizza' ? '🍕 ' : '🍰 '}{tab}
+            {tab}
           </button>
         ))}
       </div>
 
       <div style={{ padding: '15px' }}>
-        <h3 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '15px' }}>{activeTab} Selection</h3>
         {menuData[activeTab].map((item: any) => (
           <div key={item.id} style={{ display: 'flex', backgroundColor: '#fff', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)', marginBottom: '15px' }}>
             <img src={item.img} style={{ width: '130px', height: '130px', objectFit: 'cover' }} alt={item.name} />
             <div style={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <h4 style={{ margin: '0 0 5px 0', fontSize: '16px', fontWeight: 700 }}>{item.name}</h4>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ backgroundColor: '#24963F', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>{item.rating} ★</span>
-                </div>
+                <span style={{ backgroundColor: '#24963F', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>{item.rating} ★</span>
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
                 {activeTab === 'Pizza' ? (
                   <>
-                    <button onClick={()=>addToCart(item, 'S', item.s)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>S ₹{item.s}</button>
-                    <button onClick={()=>addToCart(item, 'M', item.m)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>M ₹{item.m}</button>
-                    <button onClick={()=>addToCart(item, 'L', item.l)} style={{ flex: 1, padding: '8px 2px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '10px', fontWeight: 'bold' }}>L ₹{item.l}</button>
+                    <button onClick={()=>addToCart(item, 'S', item.s)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px' }}>S ₹{item.s}</button>
+                    <button onClick={()=>addToCart(item, 'M', item.m)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px' }}>M ₹{item.m}</button>
+                    <button onClick={()=>addToCart(item, 'L', item.l)} style={{ flex: 1, padding: '8px 2px', background: '#E23744', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '10px' }}>L ₹{item.l}</button>
                   </>
                 ) : activeTab === 'Biryani' ? (
                   <>
-                    <button onClick={()=>addToCart(item, 'Half', item.half)} style={{ flex: 1, padding: '10px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>Half ₹{item.half}</button>
-                    <button onClick={()=>addToCart(item, 'Full', item.full)} style={{ flex: 1, padding: '10px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '10px', fontWeight: 'bold' }}>Full ₹{item.full}</button>
+                    <button onClick={()=>addToCart(item, 'Half', item.half)} style={{ flex: 1, padding: '10px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744' }}>Half ₹{item.half}</button>
+                    <button onClick={()=>addToCart(item, 'Full', item.full)} style={{ flex: 1, padding: '10px', background: '#E23744', color: '#fff', border: 'none', borderRadius: '8px' }}>Full ₹{item.full}</button>
                   </>
                 ) : (
-                  <button onClick={()=>addToCart(item, 'Portion', item.price)} style={{ flex: 1, padding: '10px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>Add ₹{item.price}</button>
+                  <button onClick={()=>addToCart(item, 'Portion', item.price)} style={{ flex: 1, padding: '10px', background: '#E23744', color: '#fff', border: 'none', borderRadius: '8px' }}>Add ₹{item.price}</button>
                 )}
               </div>
             </div>
@@ -109,11 +127,15 @@ export default function App() {
       </div>
 
       {cart.length > 0 && (
-        <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: '#fff', padding: '15px', borderTop: '2px solid #E23744', boxSizing: 'border-box', borderRadius: '25px 25px 0 0', boxShadow: '0 -10px 20px rgba(0,0,0,0.1)' }}>
-          <input type="text" placeholder="📍 Enter Delivery Address..." onChange={(e)=>setAddress(e.target.value)} style={{ width: '100%', padding: '15px', borderRadius: '12px', border: '1px solid #ddd', marginBottom: '12px', boxSizing: 'border-box' }} />
-          <button onClick={() => window.open(`https://wa.me/919699343711?text=${encodeURIComponent(`🔥 *New Order from Khaperkhedaa Court*\n\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}\n📍 *Address:* ${address}`)}`)} style={{ width: '100%', backgroundColor: '#E23744', color: '#fff', padding: '18px', borderRadius: '15px', fontWeight: 'bold', border: 'none', fontSize: '18px' }}>Place Order (₹{total})</button>
+        <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: '#fff', padding: '15px', borderTop: '2px solid #E23744', borderRadius: '25px 25px 0 0', boxShadow: '0 -10px 20px rgba(0,0,0,0.1)' }}>
+          <input type="text" placeholder="👤 Full Name" onChange={(e)=>setCustomerName(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #ddd', marginBottom: '8px', boxSizing: 'border-box' }} />
+          <input type="text" placeholder="🏠 Flat/House No, Building" onChange={(e)=>setAddress(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #ddd', marginBottom: '8px', boxSizing: 'border-box' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px', color: '#666', fontSize: '12px' }}>
+            <MapPin size={14} color="#E23744" /> Your location will be shared automatically.
+          </div>
+          <button onClick={handleCheckout} style={{ width: '100%', backgroundColor: '#E23744', color: '#fff', padding: '18px', borderRadius: '15px', fontWeight: 'bold', border: 'none', fontSize: '18px' }}>Confirm Order (₹{total})</button>
         </div>
       )}
     </div>
   );
-            }
+}

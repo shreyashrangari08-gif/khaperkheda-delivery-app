@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Star, Utensils, Pizza, IceCream, MapPin, Phone, MessageCircle } from 'lucide-react';
+import { ShoppingCart, Star, Utensils, Pizza, IceCream, MapPin, Phone, MessageCircle, Truck } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Biryani');
@@ -63,15 +63,11 @@ export default function App() {
       alert("Please enter Name and Address");
       return;
     }
-
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
         const message = `🔥 *New Order from Khaperkhedaa Court*\n\n👤 *Customer:* ${customerName}\n📍 *Address:* ${address}\n🗺️ *Live Location:* ${mapsLink}\n\n*Items:*\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}`;
-        window.open(`https://wa.me/919699343711?text=${encodeURIComponent(message)}`);
-      }, (error) => {
-        const message = `🔥 *New Order from Khaperkhedaa Court*\n\n👤 *Customer:* ${customerName}\n📍 *Address:* ${address}\n⚠️ _Location permission denied_\n\n*Items:*\n${cart.map(i=>`• ${i.name} (${i.sizeType}) x ${i.qty} - ₹${i.price * i.qty}`).join('\n')}\n\n💰 *Total:* ₹${total}`;
         window.open(`https://wa.me/919699343711?text=${encodeURIComponent(message)}`);
       });
     }
@@ -79,56 +75,76 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh', paddingBottom: '220px' }}>
-      <header style={{ padding: '15px 20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 10 }}>
+      {/* Redesign Header */}
+      <header style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 10, boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
         <div>
-          <h2 style={{ color: '#E23744', margin: 0, fontWeight: 900 }}>Khaperkhedaa Court</h2>
-          <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
-            <a href="tel:+919699343711" style={{ textDecoration: 'none', color: '#666', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <h1 style={{ color: '#E23744', margin: 0, fontWeight: 900, fontSize: '24px', letterSpacing: '-1.5px' }}>Khaperkhedaa Court</h1>
+          <div style={{ display: 'flex', gap: '15px', marginTop: '8px', alignItems: 'center' }}>
+            <a href="tel:+919699343711" style={{ textDecoration: 'none', color: '#555', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '5px', backgroundColor: '#f0f0f0', padding: '5px 10px', borderRadius: '15px' }}>
               <Phone size={12} color="#E23744" /> Call Help
             </a>
-            <a href="https://wa.me/919699343711?text=Hi, I need help with my order." style={{ textDecoration: 'none', color: '#666', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <a href="https://wa.me/919699343711?text=Hi, I need help with my order." style={{ textDecoration: 'none', color: '#555', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '5px', backgroundColor: '#f0f0f0', padding: '5px 10px', borderRadius: '15px' }}>
               <MessageCircle size={12} color="#25D366" /> Chat
             </a>
           </div>
         </div>
-        <div style={{ position: 'relative' }}>
-          <ShoppingCart size={24} color="#E23744" />
-          {cart.length > 0 && <span style={{ position: 'absolute', top: -5, right: -5, background: '#E23744', color: '#fff', fontSize: '10px', borderRadius: '50%', padding: '2px 5px' }}>{cart.length}</span>}
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <Truck size={24} color="#555" />
+          <div style={{ position: 'relative' }}>
+            <ShoppingCart size={28} color="#E23744" />
+            {cart.length > 0 && <span style={{ position: 'absolute', top: -5, right: -5, background: '#E23744', color: '#fff', fontSize: '10px', borderRadius: '50%', padding: '2px 6px', fontWeight: 'bold' }}>{cart.length}</span>}
+          </div>
         </div>
       </header>
 
-      <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', padding: '15px', backgroundColor: '#fff', borderBottom: '1px solid #eee', whiteSpace: 'nowrap', sticky: 'top', zIndex: 9 }}>
+      {/* NEW Top Banner Design */}
+      <div style={{ padding: '20px', backgroundColor: '#fff', borderBottom: '1px solid #eee' }}>
+        <div style={{ backgroundColor: '#E23744', borderRadius: '20px', padding: '30px', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 5px 20px rgba(226, 55, 68, 0.2)' }}>
+          <div>
+            <h2 style={{ margin: '0 0 10px 0', fontSize: '26px', fontWeight: 900, letterSpacing: '-1px' }}>Hungry in Nagpur?</h2>
+            <p style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>Get Nagpur's best dishes delivered in <Clock size={12} /> 30 min.</p>
+            <button style={{ marginTop: '15px', padding: '10px 20px', backgroundColor: '#fff', color: '#E23744', border: 'none', borderRadius: '25px', fontWeight: 'bold', fontSize: '14px', cursor: 'pointer' }}>Order Now!</button>
+          </div>
+          <div style={{ fontSize: '70px' }}>🍛🍕</div>
+        </div>
+      </div>
+
+      {/* Redesign Categories Bar with Icons */}
+      <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '15px 20px', backgroundColor: '#f9f9f9', whiteSpace: 'nowrap', sticky: 'top', top: '105px', zIndex: 9 }}>
         {['Biryani', 'South', 'Pizza', 'Sweets'].map(tab => (
-          <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: '10px 20px', borderRadius: '25px', border: activeTab === tab ? 'none' : '1px solid #ddd', backgroundColor: activeTab === tab ? '#E23744' : '#fff', color: activeTab === tab ? '#fff' : '#555', fontWeight: 'bold' }}>
-            {tab}
+          <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: '12px 24px', borderRadius: '25px', border: activeTab === tab ? 'none' : '1px solid #ddd', backgroundColor: activeTab === tab ? '#E23744' : '#fff', color: activeTab === tab ? '#fff' : '#1c1c1c', fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: activeTab === tab ? '0 4px 10px rgba(226, 55, 68, 0.3)' : 'none' }}>
+             {tab === 'Biryani' ? '🍗' : tab === 'South' ? '🍛' : tab === 'Pizza' ? '🍕' : '🍰'}{tab}
           </button>
         ))}
       </div>
 
-      <div style={{ padding: '15px' }}>
-        <h3 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '15px' }}>{activeTab} Selection</h3>
+      <div style={{ padding: '20px' }}>
+        <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '20px', letterSpacing: '-1px' }}>{activeTab} Selection</h3>
         {menuData[activeTab].map((item: any) => (
-          <div key={item.id} style={{ display: 'flex', backgroundColor: '#fff', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)', marginBottom: '15px' }}>
+          <div key={item.id} style={{ display: 'flex', backgroundColor: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 6px 18px rgba(0,0,0,0.06)', marginBottom: '20px', border: '1px solid #efefef', transition: '0.3s' }}>
             <img src={item.img} style={{ width: '130px', height: '130px', objectFit: 'cover' }} alt={item.name} />
-            <div style={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <h4 style={{ margin: '0 0 5px 0', fontSize: '16px', fontWeight: 700 }}>{item.name}</h4>
-                <span style={{ backgroundColor: '#24963F', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>{item.rating} ★</span>
+                <h4 style={{ margin: '0 0 6px 0', fontSize: '18px', fontWeight: 700, color: '#1c1c1c' }}>{item.name}</h4>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ backgroundColor: '#24963F', color: '#fff', fontSize: '11px', padding: '3px 7px', borderRadius: '6px', fontWeight: 'bold' }}>{item.rating} ★</span>
+                  <span style={{ fontSize: '12px', color: '#777', display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> 30 min</span>
+                </div>
               </div>
-              <div style={{ display: 'flex', gap: '5px' }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
                 {activeTab === 'Pizza' ? (
                   <>
-                    <button onClick={()=>addToCart(item, 'S', item.s)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>S ₹{item.s}</button>
-                    <button onClick={()=>addToCart(item, 'M', item.m)} style={{ flex: 1, padding: '8px 2px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>M ₹{item.m}</button>
-                    <button onClick={()=>addToCart(item, 'L', item.l)} style={{ flex: 1, padding: '8px 2px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '10px', fontWeight: 'bold' }}>L ₹{item.l}</button>
+                    <button onClick={()=>addToCart(item, 'S', item.s)} style={{ flex: 1, padding: '10px 4px', border: '1px solid #E23744', borderRadius: '10px', color: '#E23744', fontSize: '11px', fontWeight: 'bold', backgroundColor: 'transparent' }}>S ₹{item.s}</button>
+                    <button onClick={()=>addToCart(item, 'M', item.m)} style={{ flex: 1, padding: '10px 4px', border: '1px solid #E23744', borderRadius: '10px', color: '#E23744', fontSize: '11px', fontWeight: 'bold', backgroundColor: 'transparent' }}>M ₹{item.m}</button>
+                    <button onClick={()=>addToCart(item, 'L', item.l)} style={{ flex: 1, padding: '10px 4px', background: '#E23744', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '11px', fontWeight: 'bold' }}>L ₹{item.l}</button>
                   </>
                 ) : activeTab === 'Biryani' ? (
                   <>
-                    <button onClick={()=>addToCart(item, 'Half', item.half)} style={{ flex: 1, padding: '10px', border: '1px solid #E23744', borderRadius: '8px', color: '#E23744', fontSize: '10px', fontWeight: 'bold' }}>Half ₹{item.half}</button>
-                    <button onClick={()=>addToCart(item, 'Full', item.full)} style={{ flex: 1, padding: '10px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '10px', fontWeight: 'bold' }}>Full ₹{item.full}</button>
+                    <button onClick={()=>addToCart(item, 'Half', item.half)} style={{ flex: 1, padding: '12px', border: '1px solid #E23744', borderRadius: '10px', color: '#E23744', fontSize: '12px', fontWeight: 'bold', backgroundColor: 'transparent' }}>Half ₹{item.half}</button>
+                    <button onClick={()=>addToCart(item, 'Full', item.full)} style={{ flex: 1, padding: '12px', background: '#E23744', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>Full ₹{item.full}</button>
                   </>
                 ) : (
-                  <button onClick={()=>addToCart(item, 'Portion', item.price)} style={{ flex: 1, padding: '10px', background: '#E23744', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>Add ₹{item.price}</button>
+                  <button onClick={()=>addToCart(item, 'Portion', item.price)} style={{ flex: 1, padding: '12px', background: '#E23744', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>Add ₹{item.price}</button>
                 )}
               </div>
             </div>
@@ -137,10 +153,13 @@ export default function App() {
       </div>
 
       {cart.length > 0 && (
-        <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: '#fff', padding: '15px', borderTop: '2px solid #E23744', boxSizing: 'border-box', borderRadius: '25px 25px 0 0', boxShadow: '0 -10px 20px rgba(0,0,0,0.1)', zIndex: 20 }}>
-          <input type="text" placeholder="👤 Your Name" onChange={(e)=>setCustomerName(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #ddd', marginBottom: '8px', boxSizing: 'border-box' }} />
-          <input type="text" placeholder="🏠 Delivery Address" onChange={(e)=>setAddress(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #ddd', marginBottom: '8px', boxSizing: 'border-box' }} />
-          <button onClick={handleCheckout} style={{ width: '100%', backgroundColor: '#E23744', color: '#fff', padding: '18px', borderRadius: '15px', fontWeight: 'bold', border: 'none', fontSize: '18px' }}>Confirm Order (₹{total})</button>
+        <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: '#fff', padding: '20px', borderTop: '1px solid #eee', boxSizing: 'border-box', borderRadius: '25px 25px 0 0', boxShadow: '0 -10px 20px rgba(0,0,0,0.1)', zIndex: 20 }}>
+          <input type="text" placeholder="👤 Your Full Name" onChange={(e)=>setCustomerName(e.target.value)} style={{ width: '100%', padding: '15px', borderRadius: '12px', border: '1px solid #ddd', marginBottom: '10px', boxSizing: 'border-box', fontSize: '15px' }} />
+          <input type="text" placeholder="🏠 Delivery Address (nagpur)" onChange={(e)=>setAddress(e.target.value)} style={{ width: '100%', padding: '15px', borderRadius: '12px', border: '1px solid #ddd', marginBottom: '10px', boxSizing: 'border-box', fontSize: '15px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '15px', color: '#666', fontSize: '12px' }}>
+            <MapPin size={14} color="#E23744" /> Click to share your current location automatically.
+          </div>
+          <button onClick={handleCheckout} style={{ width: '100%', backgroundColor: '#E23744', color: '#fff', padding: '20px', borderRadius: '18px', fontWeight: 'bold', border: 'none', fontSize: '18px', cursor: 'pointer', boxShadow: '0 5px 15px rgba(226, 55, 68, 0.3)' }}>Place Order (₹{total})</button>
         </div>
       )}
     </div>

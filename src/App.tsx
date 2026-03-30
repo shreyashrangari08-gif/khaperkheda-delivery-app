@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Star, Utensils, Pizza, IceCream, MapPin, Phone, MessageCircle, Clock, UserCircle, X, Save, Tag } from 'lucide-react';
+import { ShoppingCart, Star, Utensils, Pizza, IceCream, MapPin, Phone, MessageCircle, Clock, UserCircle, X, Save, Tag, Coffee } from 'lucide-react';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -32,27 +32,26 @@ export default function App() {
     alert("Profile Updated!");
   };
 
-  // 100% Tested Food-Only Links
   const menuData: any = {
     Biryani: [
-      { id: 'b1', name: "Chicken Dum Biryani", half: 130, full: 240, rating: "4.8", img: "https://cdn.pixabay.com/photo/2019/11/04/12/16/rice-4601049_640.jpg" },
-      { id: 'b2', name: "Veg Hyderabadi Biryani", half: 100, full: 180, rating: "4.2", img: "https://cdn.pixabay.com/photo/2016/11/23/18/31/pasta-1854245_640.jpg" },
-      { id: 'b3', name: "Egg Biryani Special", half: 110, full: 190, rating: "4.4", img: "https://cdn.pixabay.com/photo/2017/06/21/04/34/rice-2425930_640.jpg" },
-      { id: 'b4', name: "Paneer Biryani", half: 130, full: 230, rating: "4.5", img: "https://cdn.pixabay.com/photo/2021/10/05/16/32/indian-food-6683141_640.jpg" }
+      { id: 'b1', name: "Chicken Dum Biryani", half: 130, full: 240, rating: "4.8", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Chicken_Biryani_in_Chennai.jpg/640px-Chicken_Biryani_in_Chennai.jpg" },
+      { id: 'b2', name: "Veg Hyderabadi Biryani", half: 100, full: 180, rating: "4.2", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Hyderabadi_Vegetable_Biryani.jpg/640px-Hyderabadi_Vegetable_Biryani.jpg" },
+      { id: 'b3', name: "Egg Biryani Special", half: 110, full: 190, rating: "4.4", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Egg_biryani.jpg/640px-Egg_biryani.jpg" },
+      { id: 'b4', name: "Paneer Biryani", half: 130, full: 230, rating: "4.5", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Paneer_Biryani.jpg/640px-Paneer_Biryani.jpg" }
     ],
     South: [
-      { id: 's1', name: "Butter Masala Dosa", price: 110, rating: "4.5", img: "https://cdn.pixabay.com/photo/2017/01/20/15/06/orange-1995079_640.jpg" },
-      { id: 's2', name: "Idli Sambhar (3 Pc)", price: 70, rating: "4.4", img: "https://cdn.pixabay.com/photo/2017/06/16/11/38/breakfast-2408818_640.jpg" },
-      { id: 's3', name: "Medu Vada Platter", price: 90, rating: "4.4", img: "https://cdn.pixabay.com/photo/2024/02/26/15/55/idli-8598305_640.jpg" }
+      { id: 's1', name: "Butter Masala Dosa", price: 110, rating: "4.5", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Dosa_at_Sree_Krishna_Bhavan.jpg/640px-Dosa_at_Sree_Krishna_Bhavan.jpg" },
+      { id: 's2', name: "Idli Sambhar (3 Pc)", price: 70, rating: "4.4", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Idli_Sambar.JPG/640px-Idli_Sambar.JPG" },
+      { id: 's3', name: "Medu Vada Platter", price: 90, rating: "4.4", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vada_Sambhar.jpg/640px-Vada_Sambhar.jpg" }
     ],
     Pizza: [
-      { id: 'p1', name: "Paneer Tikka Pizza", s: 199, m: 379, l: 599, rating: "4.6", img: "https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_640.jpg" },
-      { id: 'p2', name: "Farmhouse Pizza", s: 179, m: 349, l: 549, rating: "4.3", img: "https://cdn.pixabay.com/photo/2017/12/10/14/47/pizzas-3010062_640.jpg" }
+      { id: 'p1', name: "Paneer Tikka Pizza", s: 199, m: 379, l: 599, rating: "4.6", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+      { id: 'p2', name: "Farmhouse Pizza", s: 179, m: 349, l: 549, rating: "4.3", img: "https://images.unsplash.com/photo-1574129624542-63d1f8da6c51?w=500" }
     ],
     Sweets: [
-      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://cdn.pixabay.com/photo/2014/11/17/15/44/gulab-jamun-534727_640.jpg" },
-      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://cdn.pixabay.com/photo/2023/07/20/06/15/indian-sweet-8138515_640.jpg" },
-      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://cdn.pixabay.com/photo/2018/03/17/14/06/indian-1456578_640.jpg" }
+      { id: 'sw1', name: "Gulab Jamun (2 Pc)", price: 50, rating: "4.8", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Gulab_jamun_%28m_o%29.jpg/640px-Gulab_jamun_%28m_o%29.jpg" },
+      { id: 'sw2', name: "Rasmalai (2 Pc)", price: 80, rating: "4.9", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Ras_Malai_India.JPG/640px-Ras_Malai_India.JPG" },
+      { id: 'sw3', name: "Kaju Katli (250g)", price: 250, rating: "4.7", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Kaju_Katli_India.jpg/640px-Kaju_Katli_India.jpg" }
     ]
   };
 
@@ -122,7 +121,18 @@ export default function App() {
       <div style={{ padding: '15px' }}>
         {menuData[activeTab].map((item: any) => (
           <div key={item.id} style={{ display: 'flex', backgroundColor: '#fff', borderRadius: '15px', overflow: 'hidden', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', marginBottom: '15px', border: '1px solid #f0f0f0' }}>
-            <img src={item.img} style={{ width: '120px', height: '120px', objectFit: 'cover' }} alt={item.name} />
+            {/* Image with Fallback Icon */}
+            <div style={{ width: '120px', height: '120px', backgroundColor: '#eee', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+              <img 
+                src={item.img} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                alt={item.name} 
+                onError={(e: any) => {
+                  e.target.style.display = 'none';
+                  e.target.parentElement.innerHTML = '<div style="color:#E23744"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg></div>';
+                }}
+              />
+            </div>
             <div style={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>{item.name}</h4>
@@ -173,4 +183,4 @@ export default function App() {
       )}
     </div>
   );
-}
+            }
